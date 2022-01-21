@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="code-DMcH9tdti5" />
+  <meta name="referrer" content="no-referrer" />
+  
+  <title>vue3学习笔记之$refs | Q Code | 遇事不决 可问春风 春风不语 遵循自心</title>
+
+  
+  <meta name="author" content="Luis">
+  
+
+  
+  <meta name="description" content="javaScript">
+  
+
+  
+  <meta name="keywords" content="前端,博客,刘胜群">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="vue3学习笔记之$refs"/>
+
+  <meta property="og:site_name" content="Q Code"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Q Code" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Q Code</a>
+    </h1>
+    <p class="site-description">遇事不决 可问春风 春风不语 遵循自心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>vue3学习笔记之$refs</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/09/01/vue3学习笔记之$refs/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-09-01T14:27:47.000Z">
+          2021-09-01
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>在vue3 的<code>setup()</code>中如何拿到子组件或字节点？如何实现类似<code>$refs</code>的功能？</p>
+<a id="more"></a>
+
+<blockquote>
+<p>举个栗子🌰, 想实现渲染完成后<code>input</code>输入框自动获焦点的效果</p>
+</blockquote>
+<p>模版:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">el-input</span> <span class="attr">v-model</span>=<span class="string">"inputValue"</span> <span class="attr">ref</span>=<span class="string">"inputRef"</span> @<span class="attr">input</span>=<span class="string">"inputChange"</span> <span class="attr">placeholder</span>=<span class="string">"请输入内容"</span>&gt;</span><span class="tag">&lt;/<span class="name">el-input</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>效果图:<br><img src="https://tva1.sinaimg.cn/large/008i3skNly1gu1igmr1k0g616i0k60tj02.gif" alt="image"></p>
+<h2 id="方式1-ref"><a href="#方式1-ref" class="headerlink" title="方式1.ref()"></a>方式1.ref()</h2><p>通过<code>ref()</code>函数可以实现类似<code>$refs</code>功能</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; ref, defineComponent, onMounted &#125; <span class="keyword">from</span> <span class="string">"vue"</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> defineComponent(&#123;</span><br><span class="line">  setup () &#123;</span><br><span class="line">    <span class="keyword">const</span> inputRef = ref();</span><br><span class="line">    onMounted(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      inputRef.value.focus();</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">const</span> inputChange = <span class="function"><span class="params">v</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(v);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      inputValue: ref(<span class="string">""</span>),</span><br><span class="line">      inputRef,</span><br><span class="line">      inputChange</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="方式2-getCurrentInstance"><a href="#方式2-getCurrentInstance" class="headerlink" title="方式2.getCurrentInstance()"></a>方式2.getCurrentInstance()</h2><blockquote>
+<p>getCurrentInstance 允许访问对高级用法或库创建者有用的内部组件实例。 –官方文档介绍</p>
+</blockquote>
+<p>所以可以使用该方法实现 <code>this</code>的效果</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; ref, defineComponent, onMounted, getCurrentInstance &#125; <span class="keyword">from</span> <span class="string">"vue"</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> defineComponent(&#123;</span><br><span class="line">  name: <span class="string">"Home"</span>,</span><br><span class="line">  setup () &#123;</span><br><span class="line">    <span class="keyword">const</span> internalInstance = getCurrentInstance();</span><br><span class="line">    onMounted(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      internalInstance.ctx.$refs.inputRef.focus();</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">const</span> inputChange = <span class="function"><span class="params">v</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(v);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      inputValue: ref(<span class="string">""</span>),</span><br><span class="line">      inputChange</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>tip: 官方文档中明确说明<code>getCurrentInstance</code>使用限制<a href="https://v3.cn.vuejs.org/api/composition-api.html#getcurrentinstance" target="_blank" rel="noopener">链接</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/vue/">vue</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2022 Luis
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

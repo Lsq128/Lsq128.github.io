@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="code-DMcH9tdti5" />
+  <meta name="referrer" content="no-referrer" />
+  
+  <title>vue3之computed和watch | Q Code | 遇事不决 可问春风 春风不语 遵循自心</title>
+
+  
+  <meta name="author" content="Luis">
+  
+
+  
+  <meta name="description" content="javaScript">
+  
+
+  
+  <meta name="keywords" content="前端,博客,刘胜群">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="vue3之computed和watch"/>
+
+  <meta property="og:site_name" content="Q Code"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Q Code" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Q Code</a>
+    </h1>
+    <p class="site-description">遇事不决 可问春风 春风不语 遵循自心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/about">关于</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>vue3之computed和watch</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/11/23/vue3之computed和watch/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-11-23T13:11:34.000Z">
+          2021-11-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>在vue3中正确使用<code>computed</code>和<code>watch</code>的方式是什么呢？</p>
+<a id="more"></a>
+<h2 id="computed"><a href="#computed" class="headerlink" title="computed"></a>computed</h2><blockquote>
+<p>在vue3中，<code>computed</code>也是支持以组合式<code>API</code>的形式来使用的，</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;input type=<span class="string">"number"</span> v-model=<span class="string">"obj.first"</span>&gt;+</span><br><span class="line">    &lt;input type=<span class="string">"number"</span> v-model=<span class="string">"obj.second"</span>&gt;=</span><br><span class="line">    &#123;&#123;sum&#125;&#125;&lt;br&gt;</span><br><span class="line">  &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">import</span> &#123;reactive,computed&#125; <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  setup()&#123;</span><br><span class="line">    <span class="keyword">const</span> obj = reactive(&#123;</span><br><span class="line">      first: <span class="number">0</span>,</span><br><span class="line">      second: <span class="number">0</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">const</span> sum =computed(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">      <span class="keyword">return</span> obj.first + obj.second</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      obj,</span><br><span class="line">      sum</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+<p>上面是我们常用的计算属性取值的简单示例。那对于修改该怎么办呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"home"</span>&gt;</span><br><span class="line">    姓：&lt;input type=<span class="string">"text"</span> v-model=<span class="string">"names.familyName"</span>&gt;<span class="xml"><span class="tag">&lt;<span class="name">br</span>&gt;</span></span></span><br><span class="line">    名：&lt;input type="text" v-model="names.lastName"&gt;&lt;br&gt;</span><br><span class="line">    姓名：&lt;input type="text" v-model="names.fullName"&gt;&lt;br&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import &#123;reactive,computed&#125; from 'vue'</span><br><span class="line">export default &#123;</span><br><span class="line">  name: 'Home',</span><br><span class="line">  setup()&#123;</span><br><span class="line">    const names = reactive(&#123;</span><br><span class="line">      familyName:'张',</span><br><span class="line">      lastName:'三'</span><br><span class="line">    &#125;);</span><br><span class="line">    names.fullName = computed(&#123;</span><br><span class="line">      get()&#123;</span><br><span class="line">        return names.familyName + '.' + names.lastName;</span><br><span class="line">      &#125;,</span><br><span class="line">      set(value)&#123;</span><br><span class="line">        const arr = value.split('.')</span><br><span class="line">        names.familyName = arr[0];</span><br><span class="line">        names.lastName = arr[1];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    return &#123;</span><br><span class="line">      names</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h2><blockquote>
+<p>对于<code>watch</code>，同样也是组合式<code>API</code>不多说，直接看🌰<br>1.对于<code>ref</code>数据</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"n++"</span>&gt;</span>N++<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">P</span>&gt;</span>&#123;&#123; n &#125;&#125;<span class="tag">&lt;/<span class="name">P</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"() =&gt; &#123;</span></span></span><br><span class="line"><span class="tag"><span class="string">      a++;</span></span></span><br><span class="line"><span class="tag"><span class="string">      b++;</span></span></span><br><span class="line"><span class="tag"><span class="string">    &#125;"</span>&gt;</span>a,b ++<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> &#123; ref, watch &#125; <span class="keyword">from</span> <span class="string">'vue'</span>;</span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line">  setup()&#123;</span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> n = ref(<span class="number">1</span>);</span></span><br><span class="line"></span><br><span class="line">    watch(n, (newValue, oldValue) =&gt; &#123;</span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(newValue, oldValue);</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> a, b = <span class="number">1</span>;</span></span><br><span class="line"><span class="actionscript">    <span class="comment">// 监听多个</span></span></span><br><span class="line">    watch([a, b], (newValue, oldValue) = &gt; &#123;</span><br><span class="line"><span class="actionscript">      <span class="comment">// 此时newValue, newValue同样也是数组</span></span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(newValue, newValue);</span></span><br><span class="line">    &#125;);</span><br><span class="line"><span class="actionscript">    <span class="keyword">return</span> &#123;</span></span><br><span class="line">      n</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2.对于<code>reactive</code>,综合🌰</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>年龄&#123;&#123;obj.age&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>身高&#123;&#123;obj.height&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"() =&gt; &#123;</span></span></span><br><span class="line"><span class="tag"><span class="string">      obj.age++;</span></span></span><br><span class="line"><span class="tag"><span class="string">      obj.height--;</span></span></span><br><span class="line"><span class="tag"><span class="string">    &#125;"</span>&gt;</span>change<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> &#123; ref, watch &#125; <span class="keyword">from</span> <span class="string">'vue'</span>;</span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line">  setup()&#123;</span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> obj = reactive(&#123;</span></span><br><span class="line">      age: 18,</span><br><span class="line">      height: 188</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="comment">// 立即执行，监听多个数据</span></span></span><br><span class="line"><span class="javascript">    watch([<span class="function"><span class="params">()</span> =&gt;</span> obj.age, () =&gt; obj.height], (newV, oldV) =&gt; &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(newV, oldV);</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line"><span class="actionscript">      immediate: <span class="literal">true</span></span></span><br><span class="line">    &#125;);</span><br><span class="line"><span class="actionscript">    <span class="keyword">return</span> &#123;</span></span><br><span class="line">      n</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="watchEffect"><a href="#watchEffect" class="headerlink" title="watchEffect"></a>watchEffect</h2><p><code>watchEffect</code>是vue3中新增加的函数</p>
+<blockquote>
+<p>官方解释：立即执行传入的一个函数，同时响应式追踪其依赖，并在其依赖变更时重新运行该函数<br>简单总结下和<code>watch</code>,<code>computed</code>的优势和区别</p>
+</blockquote>
+<ol>
+<li>自动开始了<code>immediate: true</code></li>
+<li>追踪依赖，用到了谁就监视谁</li>
+<li>和<code>computed</code>相比不用写返回值<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">watchEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> age = obj.age;</span><br><span class="line">  <span class="keyword">const</span> height = cur.height;</span><br><span class="line">  <span class="built_in">console</span>.log(age, height, <span class="string">"改变了～"</span>)；</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/vue/">vue</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2022 Luis
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
